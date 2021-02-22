@@ -24,22 +24,31 @@ def process_metadata(summary, filename):
     for i in range(len(lines)):
         line = lines[i].split()
         if len(line) == 3 and line[2]==filename:
-            seizures = int(lines[i+3].split()[-1])
+            j = i+1
+            processed=False
+            while (not processed):
+                if (lines[j].split()[0]=='Number'):
+                    seizures = int(lines[j].split()[-1])
+                    processed=True
+                j = j + 1
+
+            # If file has seizures get start and end time
             if seizures > 0:
-                j = i + 4
+                j = i + 1
                 for s in range(seizures):
                     # Save start and end time of each seizure
                     processed = False
                     while (not processed):
                         l = lines[j].split()
                         #print(l)
-                        #if l[0]=='Seizure' and l[1]==str(s+1) and l[2]=='Start':
+
                         if l[0]=='Seizure' and 'Start' in l:
                             start = int(l[-2]) * 256 - 1                # Index of start time
                             end = int(lines[j+1].split()[-2]) * 256 - 1 # Index of end time
                             processed=True
                         j = j + 1
                     times.append((start,end))
+
             metadata['seizures']=seizures
             metadata['times']=times
     
@@ -71,18 +80,32 @@ def drop_channels(edf_source, edf_target=None, to_keep=None, to_drop=None):
 def move_channels(clean_dict, channels, target):
 
     # Keep only valid channels
+    keys_to_delete = []
     for key in clean_dict:
         if key != 'metadata' and key not in channels.keys():
-            del clean_dict[key]
+            keys_to_delete.append(key)
+    for key in keys_to_delete:
+        del clean_dict[key]
+    
+    # Get size of the numpy array
+    size = 0
+    for item in clean_dict.keys():
+        if item != 'metadata':
+            size = len(clean_dict.get(item))
+            break
+
+    for k in channels.keys():
+        if k not in clean_dict.keys():
+            clean_dict[k]=np.zeros(size, dtype=float)
 
     compressed_pickle(target + '.pkl', clean_dict)
     
     
 # Process edf files of a pacient from start number to end number
 def process_files(pacient, valid_channels, channels, start, end):
-    to_keep = []
-
     for num in range(start, end + 1):
+        to_keep = []
+
         num = ('0' + str(num))[-2:]
         filename = '{path}/chb{p}/chb{p}_{n}.edf'.format(path=signals_path, p=pacient, n=num)
 
@@ -142,7 +165,7 @@ def start_process(pacient, num, start, end, sum_ind):
         if line[0]=='Channels' and line[1] == 'changed:': 
             summary_index += 1
 
-        if line[0]=='Channel' and summary_index == sum_ind and (line[2] != '-' or line[2]!='.'): # '-' means a void channel
+        if line[0]=='Channel' and summary_index == sum_ind and (line[2]!= '-' and line[2]!='.'): # '-' means a void channel
 
             if line[2] in channels.keys(): # In case of repeated channel just add '-2' to the label
                 name = line[2] + '-2'
@@ -183,14 +206,20 @@ def start_process(pacient, num, start, end, sum_ind):
 signals_path = 'physionet.org/files/chbmit/1.0.0' # Path to the data main directory
 clean_path = 'clean_signals' # Path where to store clean data
 
+if not os.path.exists(clean_path):
+    os.makedirs(clean_path)
+
+# Clean pacients one by one manually with these parameters
 pacient = '04'
 num = '01' # Reference file
 summary_index = 0 # Index of channels summary reference
 start = 28 # Number of first file to process 
 end = 28  # Number of last file to process
-
 # Start the process
 #start_process(pacient, num, start, end, summary_index)
+
+
+# FULL DATA PROCESS
 
 # Clean files of pacients: 1,2,3,5,6,7,8,10,11,14,20,21,22,23,24
 start_process('01', '01', 2, 46, 0)
@@ -208,3 +237,11 @@ start_process('21', '01', 2, 33, 0)
 start_process('22', '01', 2, 77, 0)
 start_process('23', '06', 7, 20, 0)
 start_process('24', '01', 3, 21, 0)
+
+# Clean files of pacients 4,9,15,16,18,19
+start_process('04', '07', 1, 43, 1)
+start_process('09', '02', 1, 19, 1)
+start_process('15', '02', 1, 63, 1)
+start_process('16', '01', 2, 19, 0)
+start_process('18', '02', 1, 36, 1)
+start_process('19', '02', 1, 30, 1)
