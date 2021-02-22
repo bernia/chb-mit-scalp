@@ -1,7 +1,7 @@
 # chb-mit-scalp
 
 This repo contains some scripts in order to prepare the data from chb-mit-scalp EEG to use it in classification systems.
-The main script is homogenize_signals.py, which converts the signal files (.edf) into compressed picke.
+The main script is [homogenize_signals.py](homogenize_signals.py) , which converts the signal files (.edf) into compressed picke.
 It process the pacients one by one and creates numpy arrays with the same number of channels for each pacient.
 In some pacients, there are files without some of the channels that other files have for the same pacient. The script
 adds zero arrays for these channels in order to have the same size of data for every pacient.
