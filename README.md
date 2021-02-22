@@ -1,9 +1,9 @@
 # chb-mit-scalp
 
 This repo contains some scripts in order to prepare the data from chb-mit-scalp EEG to use it in classification systems.
-The main script is [homogenize_signals.py](homogenize_signals.py) , which converts the signal files (.edf) into compressed picke.
-It process the pacients one by one and creates numpy arrays with the same number of channels for each pacient.
-In some pacients, there are files without some of the channels that other files have for the same pacient. The script
+The main script is [homogenize_signals.py](homogenize_signals.py) , which converts the signal files (.edf) into compressed pickle.
+It processes the pacients one by one and creates numpy arrays with the same number of channels for each pacient.
+In some pacients, there are files without some of the channels that appear in other files of the same pacient. The script
 adds zero arrays for these channels in order to have the same size of data for every pacient.
 
 First, you need to download the data. (Create a directory first. In this case we create 'UC13' dir)
@@ -22,7 +22,7 @@ Now you can run the script. It will create a directory called "clean_signals" wi
 ```
 python homogenize_signals.py
 ```
-It will last 2-3 hours, depending of the CPU capacity.
+It will last 2-3 hours, depending on the CPU .
 
 If you want to change something, you can edit the script. 
 There are some parameters by the end of the file that you can change in order to process the pacients' data manually.
