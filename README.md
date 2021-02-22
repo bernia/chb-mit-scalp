@@ -18,7 +18,7 @@ Now you can run the script. It will create a directory called "clean_signals" wi
 ```
 python homogenize_signals.py
 ```
-It will last 2-3 hours, depending on the CPU .
+It will take 2-3 hours, depending on the CPU .
 
 If you want to change something, you can edit the script. 
 There are some parameters by the end of the file that you can change in order to process the pacients' data manually.
