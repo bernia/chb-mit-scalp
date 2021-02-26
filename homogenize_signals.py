@@ -221,33 +221,6 @@ end = 28  # Number of last file to process
 
 
 # FULL DATA PROCESS
-
-# Clean files of pacients: 1,2,3,5,6,7,8,10,11,14,20,21,22,23,24
-#start_process('01', '01', 2, 46, 0)
-#start_process('02', '01', 2, 35, 0)
-#start_process('03', '01', 2, 38, 0)
-#start_process('05', '01', 2, 39, 0)
-#start_process('06', '01', 2, 24, 0)
-#start_process('07', '01', 2, 19, 0)
-#start_process('08', '02', 3, 29, 0)
-#start_process('10', '01', 2, 89, 0)
-#start_process('11', '01', 2, 99, 0)
-#start_process('14', '01', 2, 42, 0)
-#start_process('20', '01', 2, 68, 0)
-#start_process('21', '01', 2, 33, 0)
-#start_process('22', '01', 2, 77, 0)
-#start_process('23', '06', 7, 20, 0)
-#start_process('24', '01', 3, 21, 0)
-#
-## Clean files of pacients 4,9,15,16,18,19
-#start_process('04', '07', 1, 43, 1)
-#start_process('09', '02', 1, 19, 1)
-#start_process('15', '02', 1, 63, 1)
-#start_process('16', '01', 2, 19, 0)
-#start_process('18', '02', 1, 36, 1)
-#start_process('19', '02', 1, 30, 1)
-
-
 parameters = [('01', '01', 2, 46, 0),
               ('02', '01', 2, 35, 0),
               ('03', '01', 2, 38, 0),
