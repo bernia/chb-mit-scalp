@@ -9,7 +9,7 @@ wget -r -N -c -np https://physionet.org/files/chbmit/1.0.0/
 ```
 
 After downloading the data, in order to clean the data you need to run the Python script [homogenize_signals.py](homogenize_signals.py).
-The script can run with these depencencies:
+The script can run with these dependencies:
 - Python >3.8  (It can probably work for older versions, but has not been tested)
 - Numpy 1.19.5
 - pyEdflib 0.1.20 (You can install it from pip)
